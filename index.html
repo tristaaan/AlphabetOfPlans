@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Alphabet Of Plans</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='main.css' rel='stylesheet' type='text/css'>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.min.js"></script>
+    <script src="plans.js"></script>
+
+</head>
+<body>
+    <h1>Alphabet of Plans</h1>
+    <h4>We all have a plan B, what about plans C-Z?</h4>
+
+    <main ng-controller="AlphabetController">
+		<ul class="unstyled">
+			<li class="animate-repeat" ng-repeat="plan in plans.list">
+				<strong>Plan {{getNthLetter($index)}}:</strong>
+				<span>{{plan.title}}</span>
+				<!--<span>{{plans.getPlan(letterKey).description}}</span>-->
+				<button ng-click="editPlan()">e</button>
+				<button ng-click="removePlan($index)">x</button>
+			</li>
+		</ul>
+		<h3 ng-show="atEnd">Looks like you're set!</h3>
+		<h3 ng-hide="atEnd">What's Your Plan {{currentLetter}}:</h3>
+		<form ng-hide="atEnd" ng-submit="addPlan()">
+	        <input type="text" ng-model="planTitle" size="30" placeholder="Plan {{currentLetter}}">
+	        <!--<input type="text" ng-model="planDescription"  size="30" placeholder="Description" value="">-->
+	        <input type="submit" value="add">
+	    </form>
+	</main>
+</body>
+</html>

@@ -1,52 +1,41 @@
-Utils = {
-    nextLetter:function(c){
-        return String.fromCharCode(c.charCodeAt(0) + 1);
-    },
+var app = angular.module('AlphabetOfPlans', []);
 
-    prevLetter:function(c){
-        return String.fromCharCode(c.charCodeAt(0) - 1);
-    },
+app.factory('AlphabetService', function(){
+    var my = {};
 
-    getNthLetter:function(n){
-        return String.fromCharCode('A'.charCodeAt(0) + n);
-    },
-};
+    my.plans = new Alphabet();
+    my.planToEdit = new Plan('none', 'none');
+    indexOfPlan = -1;
 
-Plan = function(title, description){
-    this.title = title;
-    this.description = description;
-};
+    my.addPlan = function(p){
+        my.plans.addPlan(p);
+    };
 
-Alphabet = function(){
-    this.list = [],
+    my.removePlan = function(i){
+        my.plans.removePlan(i);
+    };
 
-    this.keys = function(){
-        return Object.keys(this.list);
+    my.updatePlan = function(p){
+        my.plans.list[indexOfPlan] = p;
     }
 
-    this.addPlan = function(plan){
-        this.list.push(plan);
+    my.editPlan = function(i){
+        my.planToEdit = my.plans.getPlan(i);
+        indexOfPlan = i;
+    };
+
+    my.getPlanToEdit = function(){
+        return my.planToEdit;
     }
 
-    this.removePlan = function(index){
-        this.list.splice(index,1);
-    }
+    return my;
+});
 
-    this.getPlan = function(index){
-        if (index < this.list.length && index > 0){
-            return this.list[index];
-        }
-        else{
-            return new Error('index out of range');
-        }
-    }
-};
-
-function AlphabetController($scope){
+app.controller('AlphabetController', function($scope, AlphabetService){
     firstLetter = 'A';
     finalLetter = String.fromCharCode('Z'.charCodeAt(0) + 1);
 
-    $scope.plans = new Alphabet();
+    $scope.plans = AlphabetService.plans;
     $scope.currentLetter = firstLetter;
     $scope.planTitle = '';
     $scope.atEnd = false;
@@ -56,7 +45,7 @@ function AlphabetController($scope){
         if ($scope.planTitle == '')
             return;
 
-        $scope.plans.addPlan(new Plan($scope.planTitle, $scope.planDescription));
+        AlphabetService.addPlan(new Plan($scope.planTitle, $scope.planDescription));
         $scope.currentLetter = Utils.nextLetter($scope.currentLetter);
         clearText();
 
@@ -66,7 +55,7 @@ function AlphabetController($scope){
     };
 
     $scope.removePlan = function(index){
-        $scope.plans.removePlan(index);
+        AlphabetService.removePlan(index);
 
         if ($scope.currentLetter == finalLetter){
             $scope.atEnd = false;
@@ -76,8 +65,8 @@ function AlphabetController($scope){
         clearText();
     };
 
-    $scope.editPlan = function(){
-        console.log('huh');
+    $scope.editPlan = function(index){
+        AlphabetService.planToEdit = $scope.plans.getPlan(index);
     };
 
     $scope.finalLetter = function(){
@@ -90,4 +79,20 @@ function AlphabetController($scope){
         $scope.planTitle = '';
         $scope.planDescription = '';
     };
-}
+});
+
+app.controller('EditController', function($scope, AlphabetService){
+    $scope.editing = false;
+    $scope.plan = AlphabetService.getPlanToEdit();
+
+    $scope.$watch(AlphabetService.getPlanToEdit, function(){
+        $scope.plan = AlphabetService.getPlanToEdit();
+        if ($scope.plan.title != 'none'){
+            $scope.editing = true;
+        }
+    }, true);
+
+    $scope.doneEditing = function(){
+        $scope.editing = false;
+    };
+});

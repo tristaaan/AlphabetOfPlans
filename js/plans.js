@@ -69,6 +69,14 @@ app.controller('AlphabetController', function($scope, AlphabetService){
         AlphabetService.planToEdit = $scope.plans.getPlan(index);
     };
 
+    $scope.moveUp = function(index){
+        $scope.plans.reorder(index, -1);
+    };
+
+    $scope.moveDown = function(index){
+        $scope.plans.reorder(index, 1);
+    };
+
     $scope.finalLetter = function(){
         return finalLetter;
     };

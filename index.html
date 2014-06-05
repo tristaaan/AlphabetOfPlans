@@ -22,6 +22,11 @@
 					<td><strong>Plan {{getNthLetter($index)}}:</strong></td>
 					<td><span>{{plan.title}}</span></td>
 					<!--<span>{{plans.getPlan(letterKey).description}}</span>-->
+					<td ng-hide="$index==0"><button ng-click="moveUp($index)">&uarr;</button></td>
+					<td ng-show="$index==0"></td>
+					<td ng-hide="$index==plans.list.length-1"><button ng-click="moveDown($index)">&darr;</button></td>
+					<td ng-show="$index==plans.list.length-1"></td>
+
 					<td><button ng-click="editPlan($index)">e</button></td>
 					<td><button ng-click="removePlan($index)">x</button></td>
 				</tr>

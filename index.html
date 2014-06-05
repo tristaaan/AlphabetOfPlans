@@ -16,15 +16,17 @@
     <h4>We all have a plan B, what about plans C-Z?</h4>
 
     <section class="main" ng-controller="AlphabetController">
-		<ul>
-			<li ng-repeat="plan in plans.list">
-				<strong>Plan {{getNthLetter($index)}}:</strong>
-				<span>{{plan.title}}</span>
-				<!--<span>{{plans.getPlan(letterKey).description}}</span>-->
-				<button ng-click="editPlan($index)">e</button>
-				<button ng-click="removePlan($index)">x</button>
-			</li>
-		</ul>
+		<table>
+			<tbody>
+				<tr ng-repeat="plan in plans.list">
+					<td><strong>Plan {{getNthLetter($index)}}:</strong></td>
+					<td><span>{{plan.title}}</span></td>
+					<!--<span>{{plans.getPlan(letterKey).description}}</span>-->
+					<td><button ng-click="editPlan($index)">e</button></td>
+					<td><button ng-click="removePlan($index)">x</button></td>
+				</tr>
+			</tbody>
+		</table>
 		<h3 ng-show="atEnd">Looks like you're set!</h3>
 		<h3 ng-hide="atEnd">What's Your Plan {{currentLetter}}:</h3>
 		<form ng-hide="atEnd" ng-submit="addPlan()">

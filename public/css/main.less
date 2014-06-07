@@ -1,3 +1,10 @@
+@neutral-button-color: #2496E8;
+@affirmative-button-color: #1EFFBB;
+@negative-button-color: #FF2B27;
+@dark-blue-color: #4D34FF;
+
+@hover-darken-amount: 25%;
+
 html{
     font-family: 'Arimo', sans-serif;
 }
@@ -25,6 +32,20 @@ table{
 tr{
     text-align: left;
 }
+
+button{
+    background-color: @neutral-button-color;
+    color: white;
+    border-radius: 4px;
+    border-width: 0px;
+}
+button:hover{background-color: darken(@neutral-button-color, @hover-darken-amount) }
+
+button.editPlanButton{background-color: @dark-blue-color; }
+button.editPlanButton:hover{background-color: darken(@dark-blue-color, @hover-darken-amount) }
+
+button.deletePlanButton{background-color: @negative-button-color; } 
+button.deletePlanButton:hover{background-color: darken(@negative-button-color, @hover-darken-amount) }
 
 .main, .edit{
     text-align: center;

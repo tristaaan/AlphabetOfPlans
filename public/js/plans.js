@@ -40,7 +40,7 @@ app.controller('AlphabetController', function($scope, AlphabetService){
 
     $scope.data = AlphabetService;
     $scope.plans = AlphabetService.plans;
-    
+
     $scope.currentLetter = firstLetter;
     $scope.planTitle = '';
     $scope.atEnd = false;
@@ -85,7 +85,7 @@ app.controller('AlphabetController', function($scope, AlphabetService){
     $scope.finalLetter = function(){
         return finalLetter;
     };
-    
+
     $scope.getNthLetter = Utils.getNthLetter;
 
     var clearText = function(){

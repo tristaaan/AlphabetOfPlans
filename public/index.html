@@ -27,27 +27,27 @@
   					<td ng-show="$index==plans.list.length-1"></td>
 
   					<td><button class="editPlanButton" ng-click="editPlan($index)">e</button></td>
-  					<td><button class="deletePlanButton" ng-click="removePlan($index)">x</button></td>
+  					<td><button class="deletePlanButton" ng-hide="data.editing" ng-click="removePlan($index)">x</button></td>
   				</tr>
   			</tbody>
   		</table>
   		<h3 ng-show="atEnd">Looks like you're set!</h3>
   		<h3 ng-hide="atEnd">What's Your Plan {{currentLetter}}:</h3>
-  		<form ng-hide="atEnd" ng-submit="addPlan()">
+  		<form ng-hide="atEnd || data.editing" ng-submit="addPlan()">
         <input type="text" ng-model="planTitle" size="30" placeholder="Plan {{currentLetter}}">
         <!--<input type="text" ng-model="planDescription"  size="30" placeholder="Description" value="">-->
         <input type="submit" value="add">
       </form>
   	</section>
 
-  	<section class="edit" ng-controller="EditController" ng-show="editing">
+  	<section class="edit" ng-controller="EditController" ng-show="data.editing">
   		<form ng-submit="doneEditing()">
-        <input type="text" ng-model="plan.title" size="30" value="{{plan.title}}">
+        <input type="text" ng-model="data.planToEdit.title" size="30" value="{{data.planToEdit.title}}">
         <button ng-click="doneEditing()">Done</button>
       </form>
   	</section>
-    <section ng-controller="ShareController" ng-show="valid">
-        <button ng-click="shareList()">Done</button>
+    <section ng-controller="ShareController" ng-show="!plans.empty()">
+      <button ng-click="shareList()">Share</button>
     </section>
   </body>
 </html>

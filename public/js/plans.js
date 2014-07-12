@@ -8,6 +8,7 @@ app.factory('AlphabetService', function(){
 
     my.plans = new Alphabet();
     my.planToEdit = new Plan('none', 'none');
+    my.editing = false;
 
     my.addPlan = function(p){
         my.plans.addPlan(p);
@@ -37,11 +38,12 @@ app.controller('AlphabetController', function($scope, AlphabetService){
     var firstLetter = 'A';
     var finalLetter = String.fromCharCode('Z'.charCodeAt(0) + 1);
 
+    $scope.data = AlphabetService;
     $scope.plans = AlphabetService.plans;
+    
     $scope.currentLetter = firstLetter;
     $scope.planTitle = '';
     $scope.atEnd = false;
-
 
     $scope.addPlan = function(){
         if ($scope.planTitle == '')
@@ -68,15 +70,16 @@ app.controller('AlphabetController', function($scope, AlphabetService){
     };
 
     $scope.editPlan = function(index){
-        AlphabetService.planToEdit = $scope.plans.getPlan(index);
+        AlphabetService.editing = true;
+        AlphabetService.planToEdit = AlphabetService.plans.getPlan(index);
     };
 
     $scope.moveUp = function(index){
-        $scope.plans.reorder(index, -1);
+        AlphabetService.reorder(index, -1);
     };
 
     $scope.moveDown = function(index){
-        $scope.plans.reorder(index, 1);
+        AlphabetService.reorder(index, 1);
     };
 
     $scope.finalLetter = function(){
@@ -91,23 +94,15 @@ app.controller('AlphabetController', function($scope, AlphabetService){
 });
 
 app.controller('EditController', function($scope, AlphabetService){
-    $scope.editing = false;
-    $scope.plan = AlphabetService.getPlanToEdit();
-
-    $scope.$watch(AlphabetService.getPlanToEdit, function(){
-        $scope.plan = AlphabetService.getPlanToEdit();
-        if ($scope.plan.title != 'none'){
-            $scope.editing = true;
-        }
-    });
+    $scope.data = AlphabetService;
 
     $scope.doneEditing = function(){
-        $scope.editing = false;
+        AlphabetService.editing = false;
     };
 });
 
 app.controller('ShareController', function($scope, AlphabetService){
-    $scope.valid = !AlphabetService.plans.empty();
+    $scope.plans = AlphabetService.plans;
 
     $scope.shareList = function(){
         console.log("share me!");

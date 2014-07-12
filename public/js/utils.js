@@ -1,4 +1,4 @@
-Utils = {
+var Utils = {
     nextLetter:function(c){
         return String.fromCharCode(c.charCodeAt(0) + 1);
     },
@@ -12,16 +12,16 @@ Utils = {
     },
 };
 
-Plan = function(title, description){
+var Plan = function(title, description){
     this.title = title;
     this.description = description;
 };
 
-Alphabet = function(){
+var Alphabet = function(){
     this.list = [],
 
-    this.keys = function(){
-        return Object.keys(this.list);
+    this.empty = function(){
+        return (this.list.length == 0)
     }
 
     this.addPlan = function(plan){

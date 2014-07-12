@@ -1,11 +1,13 @@
+'use strict'
+
 var app = angular.module('AlphabetOfPlans', []);
 
 app.factory('AlphabetService', function(){
     var my = {};
+    var indexOfPlan = -1;
 
     my.plans = new Alphabet();
     my.planToEdit = new Plan('none', 'none');
-    indexOfPlan = -1;
 
     my.addPlan = function(p){
         my.plans.addPlan(p);
@@ -32,8 +34,8 @@ app.factory('AlphabetService', function(){
 });
 
 app.controller('AlphabetController', function($scope, AlphabetService){
-    firstLetter = 'A';
-    finalLetter = String.fromCharCode('Z'.charCodeAt(0) + 1);
+    var firstLetter = 'A';
+    var finalLetter = String.fromCharCode('Z'.charCodeAt(0) + 1);
 
     $scope.plans = AlphabetService.plans;
     $scope.currentLetter = firstLetter;
@@ -45,7 +47,7 @@ app.controller('AlphabetController', function($scope, AlphabetService){
         if ($scope.planTitle == '')
             return;
 
-        AlphabetService.addPlan(new Plan($scope.planTitle, $scope.planDescription));
+        AlphabetService.addPlan(new Plan($scope.planTitle, ''));
         $scope.currentLetter = Utils.nextLetter($scope.currentLetter);
         clearText();
 
@@ -83,9 +85,8 @@ app.controller('AlphabetController', function($scope, AlphabetService){
     
     $scope.getNthLetter = Utils.getNthLetter;
 
-    clearText = function(){
+    var clearText = function(){
         $scope.planTitle = '';
-        $scope.planDescription = '';
     };
 });
 
@@ -98,9 +99,17 @@ app.controller('EditController', function($scope, AlphabetService){
         if ($scope.plan.title != 'none'){
             $scope.editing = true;
         }
-    }, true);
+    });
 
     $scope.doneEditing = function(){
         $scope.editing = false;
+    };
+});
+
+app.controller('ShareController', function($scope, AlphabetService){
+    $scope.valid = !AlphabetService.plans.empty();
+
+    $scope.shareList = function(){
+        console.log("share me!");
     };
 });

@@ -1,8 +1,15 @@
 'use strict'
 
-var app = angular.module('AlphabetOfPlans', []);
+var app = angular.module('AlphabetOfPlans', [], function($httpProvider){
+    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
+    $httpProvider.defaults.transformRequest = [function(data) {
+        return angular.isObject(data) && String(data) !== '[object File]' ? Utils.serializeData(data) : data;
+    }];
+});
 
 app.factory('AlphabetService', function(){
+
     var my = {};
     var indexOfPlan = -1;
 
@@ -101,10 +108,14 @@ app.controller('EditController', function($scope, AlphabetService){
     };
 });
 
-app.controller('ShareController', function($scope, AlphabetService){
-    $scope.plans = AlphabetService.plans;
+app.controller('ShareController', function($scope, $http, AlphabetService){
+    $scope.response = 'nil';
 
     $scope.shareList = function(){
-        console.log("share me!");
+        console.log('put!')
+        $http.put('/list/new', AlphabetService.plans.list).success(function(response) {
+            $scope.response = response;
+            $scope.loading = false;
+        });
     };
 });

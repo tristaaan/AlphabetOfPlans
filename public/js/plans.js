@@ -80,11 +80,11 @@ app.controller('AlphabetController', function($scope, AlphabetService){
     };
 
     $scope.moveUp = function(index){
-        AlphabetService.reorder(index, -1);
+        AlphabetService.plans.reorder(index, -1);
     };
 
     $scope.moveDown = function(index){
-        AlphabetService.reorder(index, 1);
+        AlphabetService.plans.reorder(index, 1);
     };
 
     $scope.finalLetter = function(){

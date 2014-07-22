@@ -1,7 +1,9 @@
 'use strict'
 
 var app = angular.module('AlphabetOfPlans', [], function($httpProvider){
-    $httpProvider.defaults.headers.put['Content-Type'] = 'application/json';
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
+    $httpProvider.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    $httpProvider.defaults.headers.post['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept';
 });
 
 app.factory('AlphabetService', function(){
@@ -109,11 +111,11 @@ app.controller('ShareController', function($scope, $http, AlphabetService){
 
     $scope.shareList = function(){
         $http({
-            method: 'PUT',
+            method: 'POST',
             url: '/new',
             data: {alphabet: AlphabetService.plans.list}
         }).success(function(data, status, headers, config) {
-            $scope.response = data + ' ' + status;
+            $scope.response = 'sucecss ' + status;
             $scope.loading = false;
         }).error(function(data, status, headers, config){
             $scope.response = 'there was an error: ' + status;

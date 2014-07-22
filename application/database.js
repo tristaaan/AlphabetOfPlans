@@ -5,8 +5,10 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 var DataProvider = function(host, port) {
-    this.database= new Db('alphabets', new Server(host, port, {auto_reconnect: true, safe: false}, {}));
-    this.database.open(function(){});
+    this.database= new Db('alphabets', new Server(host, port, {auto_reconnect: true, safe: false, w:1}, {}));
+    this.database.open(function(err, client) {
+        console.log('db connection open...');
+    });
 
     this.getCollection= function(callback) {
         this.database.collection('alphabets', function(error, alphabet_collection) {
@@ -36,7 +38,6 @@ var DataProvider = function(host, port) {
     };
 
     this.save = function(alphabet, callback) {
-        console.log('put?!');
         this.getCollection(function(error, alphabet_collection) {
             if( error ) {
                 callback(error);

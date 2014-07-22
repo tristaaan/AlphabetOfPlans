@@ -1,11 +1,7 @@
 'use strict'
 
 var app = angular.module('AlphabetOfPlans', [], function($httpProvider){
-    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-
-    $httpProvider.defaults.transformRequest = [function(data) {
-        return angular.isObject(data) && String(data) !== '[object File]' ? Utils.serializeData(data) : data;
-    }];
+    $httpProvider.defaults.headers.put['Content-Type'] = 'application/json';
 });
 
 app.factory('AlphabetService', function(){
@@ -112,9 +108,15 @@ app.controller('ShareController', function($scope, $http, AlphabetService){
     $scope.response = 'nil';
 
     $scope.shareList = function(){
-        console.log('put!')
-        $http.put('/list/new', AlphabetService.plans.list).success(function(response) {
-            $scope.response = response;
+        $http({
+            method: 'PUT',
+            url: '/new',
+            data: {alphabet: AlphabetService.plans.list}
+        }).success(function(data, status, headers, config) {
+            $scope.response = data + ' ' + status;
+            $scope.loading = false;
+        }).error(function(data, status, headers, config){
+            $scope.response = 'there was an error: ' + status;
             $scope.loading = false;
         });
     };

@@ -9,6 +9,7 @@ var publicDir = __dirname + "/../public";
 app.configure( function() {
     app.use(lessMiddleware(publicDir));
     app.use(express.static(publicDir));
+    app.use(express.bodyParser());
 });
 
 app.get('/', function (req, res) {
@@ -20,11 +21,10 @@ app.get('/list/:id', function (req, res) {
     res.send("req id:" + req.params.id);
 });
 
-app.put('/list/new', function(req, res){
-    database.save({
-        alphabet: req.param('alphabet')
-    }, function( error, docs) {
-        res.redirect('/')
+app.put('/new', function(req, res){
+    //console.log(req.body.alphabet);
+    database.save(req.body.alphabet, function( error, docs) {
+        res.redirect('/');
     });
 });
 

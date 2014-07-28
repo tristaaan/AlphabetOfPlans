@@ -24,7 +24,7 @@ app.get('/list/:id', function (req, res) {
 });
 
 app.post('/new', function(req, res){
-    database.save({alphabet:req.body.alphabet}, function( error, docs) {
+    database.save({alphabet:req.body.alphabet, linkID: req.body.linkID}, function( error, docs) {
         res.redirect('/');
     });
 });

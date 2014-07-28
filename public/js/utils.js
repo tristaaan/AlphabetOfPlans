@@ -10,6 +10,13 @@ var Utils = {
     getNthLetter:function(n){
         return String.fromCharCode('A'.charCodeAt(0) + n);
     },
+
+    createGUID:function(){
+        var s4 = function(){
+            return Math.floor((1+Math.random())*0x10000).toString(16).substring(1)
+        };
+        return s4()+s4()+s4();
+    }
 };
 
 var Plan = function(title, description){

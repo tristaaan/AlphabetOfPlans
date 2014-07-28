@@ -13,23 +13,28 @@ app.factory('AlphabetService', function(){
 
     my.plans = new Alphabet();
     my.planToEdit = new Plan('none', 'none');
+    my.hideShareButton = false;
     my.editing = false;
 
     my.addPlan = function(p){
         my.plans.addPlan(p);
+        my.hideShareButton = false;
     };
 
     my.removePlan = function(i){
         my.plans.removePlan(i);
+        my.hideShareButton = false;
     };
 
     my.updatePlan = function(p){
         my.plans.list[indexOfPlan] = p;
+        my.hideShareButton = false;
     }
 
     my.editPlan = function(i){
         my.planToEdit = my.plans.getPlan(i);
         indexOfPlan = i;
+        my.hideShareButton = false;
     };
 
     my.getPlanToEdit = function(){
@@ -107,19 +112,23 @@ app.controller('EditController', function($scope, AlphabetService){
 });
 
 app.controller('ShareController', function($scope, $http, AlphabetService){
-    $scope.response = 'nil';
+    $scope.response = '';
+    $scope.data = AlphabetService;
 
     $scope.shareList = function(){
+        var alphabetGUID = Utils.createGUID();
         $http({
             method: 'POST',
             url: '/new',
-            data: {alphabet: AlphabetService.plans.list}
+            data: {alphabet: AlphabetService.plans.list,
+                   linkID: alphabetGUID
+            }
         }).success(function(data, status, headers, config) {
-            $scope.response = 'sucecss ' + status;
-            $scope.loading = false;
+            $scope.response = 'success ' + status + '<br>';
+            $scope.link = document.location.origin + '/list/' + alphabetGUID;
+            AlphabetService.hideShareButton = true;
         }).error(function(data, status, headers, config){
             $scope.response = 'there was an error: ' + status;
-            $scope.loading = false;
         });
     };
 });

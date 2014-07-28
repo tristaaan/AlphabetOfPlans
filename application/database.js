@@ -26,7 +26,7 @@ DataProvider.prototype.findById = function(id, callback) {
             callback(error);
         }
         else {
-            alphabet_collection.findOne({_id: alphabet_collection.db.bson_serializer.ObjectID.createFromHexString(id)}, 
+            alphabet_collection.findOne({linkID: id}, 
                 function(error, result) {
                     if( error ) callback(error)
                     else callback(null, result)

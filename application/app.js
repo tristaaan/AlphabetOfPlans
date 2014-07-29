@@ -6,6 +6,12 @@ var DataProvider = require('./database').DataProvider;
 var app = express();
 var publicDir = __dirname + "/../public";
 
+var host = process.env.HOST;
+var port = process.env.PORT;
+var dbname = process.env.DBNAME;
+var username = process.env.USERNAME;
+var pass = process.env.PASSWORD;
+
 // Configuration
 app.configure( function() {
     app.use(lessMiddleware(path.resolve(publicDir)));
@@ -15,7 +21,7 @@ app.configure( function() {
     app.set('view engine', 'html');
 });
 
-var database = new DataProvider('localhost', 27017);
+var database = new DataProvider(host, port, dbname, username, pass);
 
 app.get('/', function (req, res) {
     res.sendfile('index.html');

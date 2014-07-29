@@ -4,9 +4,23 @@ var Server = require('mongodb').Server;
 var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
-DataProvider = function(host, port) {
-    this.database= new Db('alphabets', new Server(host, port, {w:1}), {});
-    this.database.open(function(){});
+DataProvider = function(host, port, dbname, username, password) {
+    this.database = new Db(dbname, new Server(host, port, {w:1}), {});
+    this.database.open(function(err,db){
+     if(db){
+        db.authenticate(username, password,function(err2,data2){
+             if(data2){
+                 console.log("Database opened");
+             }
+             else{
+                 console.log(err2);
+             }
+         });
+      }
+      else{
+           console.log(err);
+      }
+   });
 };
 
 DataProvider.prototype.getCollection= function(callback) {

@@ -7,7 +7,7 @@ var app = express();
 var publicDir = __dirname + "/../public";
 
 var host = process.env.HOST;
-var port = process.env.PORT;
+var dbport = process.env.DBPORT;
 var dbname = process.env.DBNAME;
 var username = process.env.USERNAME;
 var pass = process.env.PASSWORD;
@@ -21,7 +21,7 @@ app.configure( function() {
     app.set('view engine', 'html');
 });
 
-var database = new DataProvider(host, port, dbname, username, pass);
+var database = new DataProvider(host, dbport, dbname, username, pass);
 
 app.get('/', function (req, res) {
     res.sendfile('index.html');

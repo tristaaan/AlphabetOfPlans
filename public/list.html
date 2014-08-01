@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html ng-app="AlphabetOfPlans">
 <head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     <title>Alphabet Of Plans</title>
 
-    <link href='//fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
     <link href='/css/main.css' rel='stylesheet' type='text/css'>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.min.js"></script>
@@ -19,7 +20,7 @@
         <table>
             <tbody>
                 <tr ng-repeat="plan in plans">
-                    <td class="c{{$index}}"><strong>Plan {{getNthLetter($index)}}:</strong></td>
+                    <td class="c{{$index}}">Plan {{getNthLetter($index)}}:</td>
                     <td><span>{{plan.title}}</span></td>
                 </tr>
             </tbody>

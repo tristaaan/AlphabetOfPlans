@@ -51,7 +51,7 @@
     </section>
 
     <section id="share" ng-controller="ShareController" ng-show="!plans.empty()">
-        <button ng-hide="data.hideShareButton" ng-click="shareList()">Share List</button>
+        <button ng-hide="data.hideShareButton || data.plans.empty()" ng-click="shareList()">Share List</button>
         <label ng-show="data.hideShareButton">Share with this link: 
             <input type="text" value="{{link}}" size="30">
         </label>

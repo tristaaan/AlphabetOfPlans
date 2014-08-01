@@ -19,7 +19,7 @@
         <table>
             <tbody>
                 <tr ng-repeat="plan in plans">
-                    <td><strong>Plan {{getNthLetter($index)}}:</strong></td>
+                    <td class="c{{$index}}"><strong>Plan {{getNthLetter($index)}}:</strong></td>
                     <td><span>{{plan.title}}</span></td>
                 </tr>
             </tbody>

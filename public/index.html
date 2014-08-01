@@ -18,7 +18,7 @@
         <table>
             <tbody>
                 <tr ng-repeat="plan in plans.list">
-                    <td><strong>Plan {{getNthLetter($index)}}:</strong></td>
+                    <td class="c{{$index}}"><strong>Plan {{getNthLetter($index)}}:</strong></td>
                     <td><span>{{plan.title}}</span></td>
                     <!--<span>{{plans.getPlan(letterKey).description}}</span>-->
                     <td ng-hide="$index==0"><button ng-click="moveUp($index)">&uarr;</button></td>
